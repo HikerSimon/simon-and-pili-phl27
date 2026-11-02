@@ -36,7 +36,7 @@
   .note-body { padding:22px 52px 0; font-family:'Libre Baskerville',Baskerville,Georgia,serif; font-style:italic; font-size:15px; line-height:1.75; letter-spacing:.03em; }
   .note-body p { margin:0 0 14px; }
   .note-sign { font-family:'Sacramento',cursive; font-size:54px; line-height:1; margin:4px 0 0; }
-  .note-foot { position:absolute; left:0; right:0; bottom:26px; text-align:center; font-family:'Libre Baskerville',Georgia,serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; }
+  .note-foot { position:absolute; left:52px; right:0; bottom:26px; text-align:left; font-family:'Libre Baskerville',Georgia,serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; }
   #letterBtn { position:absolute; left:60px; top:-40px; width:500px; height:78px; border-radius:22px 22px 0 0; z-index:3; }
   .letterOut #letterBtn { display:none; }
   #closeLetter { position:absolute; inset:0; width:100%; height:100%; border-radius:22px; display:none; }
@@ -81,10 +81,9 @@
     100% { transform:translate(167px,262px) scale(.40) rotate(-8deg); filter:drop-shadow(0 6px 10px rgba(20,28,40,.35)) }
   }
   button.hit { z-index:2; }
-  .ready #disc { pointer-events:auto; cursor:pointer; z-index:5; }
+  .ready #disc { pointer-events:auto; cursor:pointer; z-index:40; }
   .ready #disc:hover svg, .ready #disc:focus-visible svg { transform:scale(2.3) rotate(8deg); }
   #disc svg { transition:transform .35s cubic-bezier(.3,.7,.3,1); transform-origin:78% 78%; display:block; }
-  .flipped #disc { opacity:0; pointer-events:none; }
 
   button.hit { position:absolute; background:transparent; border:0; padding:0; cursor:pointer; border-radius:34px; }
   #openBtn { left:40px; top:37px; width:540px; height:746px; }
