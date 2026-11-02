@@ -44,6 +44,8 @@
   .letterOut .hint { opacity:0 !important; pointer-events:none !important; }
   #hint3 { position:absolute; left:0; right:0; top:910px; text-align:center; font-family:'Libre Baskerville',Georgia,serif; font-style:italic; font-size:15px; letter-spacing:.22em; color:var(--navy); opacity:0; transition:opacity .5s ease .6s; pointer-events:none; }
   .letterOut #hint3 { opacity:1; }
+  .instant #letter { animation-duration:0s !important; }
+  .instant #hint3 { transition-delay:0s; animation:pulse 2.4s ease-in-out infinite; font-weight:bold; }
 
   /* card + flip */
   .card3d { position:absolute; left:40px; top:37px; width:540px; height:746px; perspective:1800px; }
@@ -111,7 +113,7 @@
   }
 </style>
 </head>
-<body>
+<body class="letterOut instant">
 <div id="fit">
 <div id="stage">
 
@@ -318,7 +320,7 @@
   <button id="letterBtn" class="hit" type="button" aria-label="Read our note"></button>
 </div>
 
-<div id="hint3">Tap the note to tuck it back</div>
+<div id="hint3">Tap the note to see your invitation</div>
 <div id="hint1" class="hint">Tap the ribbon to open<div style="margin-top:8px">Tap the note to read it</div></div>
 <div id="hint2" class="hint">
   <div>Tap the card to flip · tap the orange to <a href="https://www.zola.com/wedding/simonandpili" target="_blank" rel="noopener">RSVP</a></div>
@@ -357,6 +359,7 @@
     document.getElementById('closeLetter').focus({ preventScroll: true });
   });
   document.getElementById('closeLetter').addEventListener('click', () => {
+    if (root.classList.contains('instant')) { root.classList.remove('instant'); document.getElementById('hint3').textContent = 'Tap the note to tuck it back'; }
     root.classList.remove('letterOut');
     root.classList.add('letterBack');
     document.getElementById('letterBtn').focus({ preventScroll: true });
