@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simon &amp; Pili are getting married</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Libre+Baskerville:ital@0;1&family=Sacramento&family=Pinyon+Script&display=swap">
+<style>
+  :root { --navy:#354151; --gold:#DBAA55; --ribbon:#EEE5C8; --bg:#E9E4DA; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); overflow:hidden; -webkit-tap-highlight-color: transparent; }
+  #fit { position:absolute; left:50%; top:50%; width:620px; height:980px; transform-origin:50% 50%; }
+  #stage { position:absolute; left:0; top:80px; width:620px; height:820px; }
+
+  /* insert letter */
+  #letter { position:absolute; left:60px; top:-26px; width:500px; height:700px; border-radius:22px; background:#F6F1E6; color:#2D3848;
+            box-shadow:0 10px 26px rgba(20,28,40,.22); transform:rotate(3.5deg); transform-origin:50% 0; z-index:0; }
+  .letterOut #letter { animation:pullOut 1s cubic-bezier(.45,0,.25,1) forwards; }
+  .letterBack #letter { animation:tuckIn .9s cubic-bezier(.45,0,.25,1) forwards; }
+  @keyframes pullOut {
+    0% { transform:rotate(3.5deg); z-index:0 }
+    45% { transform:translate(10px,-200px) rotate(7deg); z-index:0 }
+    50% { z-index:30 }
+    100% { transform:translate(0,90px) rotate(-1deg); z-index:30; box-shadow:0 24px 50px rgba(20,28,40,.35) }
+  }
+  @keyframes tuckIn {
+    0% { transform:translate(0,90px) rotate(-1deg); z-index:30 }
+    50% { transform:translate(10px,-200px) rotate(7deg); z-index:30 }
+    55% { z-index:0 }
+    100% { transform:rotate(3.5deg); z-index:0 }
+  }
+  .note-head { text-align:center; padding-top:20px; }
+  .note-head .tall { font-size:54px; line-height:50px; color:#2D3848; }
+  .rule { width:64px; height:1px; background:#C99A45; margin:16px auto 0; }
+  .note-body { padding:22px 52px 0; font-family:'Libre Baskerville',Baskerville,Georgia,serif; font-style:italic; font-size:15px; line-height:1.75; letter-spacing:.03em; }
+  .note-body p { margin:0 0 14px; }
+  .note-sign { font-family:'Sacramento',cursive; font-size:54px; line-height:1; margin:4px 0 0; }
+  .note-foot { position:absolute; left:0; right:0; bottom:26px; text-align:center; font-family:'Libre Baskerville',Georgia,serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; }
+  #letterBtn { position:absolute; left:60px; top:-40px; width:500px; height:78px; border-radius:22px 22px 0 0; z-index:3; }
+  .letterOut #letterBtn, .letterBack #letterBtn { display:none; }
+  #closeLetter { position:absolute; inset:0; width:100%; height:100%; border-radius:22px; display:none; }
+  .letterOut #closeLetter { display:block; }
+  .letterOut .hint { opacity:0 !important; pointer-events:none !important; }
+  #hint3 { position:absolute; left:0; right:0; top:910px; text-align:center; font-family:'Libre Baskerville',Georgia,serif; font-style:italic; font-size:15px; letter-spacing:.22em; color:var(--navy); opacity:0; transition:opacity .5s ease .6s; pointer-events:none; }
+  .letterOut #hint3 { opacity:1; }
+
+  /* card + flip */
+  .card3d { position:absolute; left:40px; top:37px; width:540px; height:746px; perspective:1800px; }
+  .flipper { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform 1s cubic-bezier(.5,.05,.25,1); }
+  .flipped .flipper { transform:rotateY(180deg); }
+  .face { position:absolute; inset:0; border-radius:34px; background:var(--navy); overflow:hidden; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+          box-shadow:0 18px 40px rgba(20,28,40,.28), 0 3px 8px rgba(20,28,40,.18); }
+  .back { transform:rotateY(180deg); display:flex; align-items:center; justify-content:center; padding-top:14px; }
+  .small { position:absolute; font-family:'Libre Baskerville',Baskerville,Georgia,serif; font-style:italic; font-size:13px; letter-spacing:.3em; line-height:25px; color:#F6F2EA; }
+  .tall { transform:scaleX(.66); text-align:center; font-family:'Bodoni Moda','Didot',serif; font-weight:400; font-size:90px; line-height:72px; white-space:nowrap; }
+  .married { position:absolute; left:118px; top:492px; font-family:'Sacramento',cursive; font-size:92px; line-height:1; color:#fff; transform:rotate(-9deg); transform-origin:0 50%; white-space:nowrap; }
+
+  /* packaging */
+  svg.layer { position:absolute; left:0; top:0; pointer-events:none; overflow:visible; }
+  .half { transition:transform 1.1s cubic-bezier(.55,0,.75,.4) .45s, opacity .6s ease .9s; }
+  .opened #bandL, .opened #segL { transform:translateX(-760px); opacity:0; }
+  .opened #bandR, .opened #segR { transform:translateX(760px); opacity:0; }
+
+  #bow { transform-box:view-box; transform-origin:293px 433px; animation:wiggle 3.2s ease-in-out infinite; }
+  .opened #bow { animation:untie .8s cubic-bezier(.4,0,.6,1) forwards; }
+  @keyframes wiggle { 0%,80%,100% { transform:rotate(0) } 86% { transform:rotate(-3deg) } 92% { transform:rotate(2.5deg) } }
+  @keyframes untie {
+    0% { transform:none; opacity:1 }
+    35% { transform:rotate(10deg) scale(1.08); opacity:1 }
+    100% { transform:translate(-40px,60px) rotate(-35deg) scale(.25); opacity:0 }
+  }
+
+  #disc { position:absolute; left:111px; top:237px; width:420px; height:420px; transform:scale(.82); transform-origin:50% 50%;
+          filter:drop-shadow(0 6px 10px rgba(20,28,40,.30)); pointer-events:none; display:block; border-radius:50%;
+          transition:opacity .5s ease; }
+  .opened #disc { animation:tuck 1.3s cubic-bezier(.45,0,.2,1) 1.15s forwards; }
+  @keyframes tuck {
+    0% { transform:scale(.82) }
+    30% { transform:translate(0,-26px) scale(.9) rotate(4deg); filter:drop-shadow(0 22px 24px rgba(20,28,40,.35)) }
+    100% { transform:translate(167px,262px) scale(.40) rotate(-8deg); filter:drop-shadow(0 6px 10px rgba(20,28,40,.35)) }
+  }
+  button.hit { z-index:2; }
+  .ready #disc { pointer-events:auto; cursor:pointer; z-index:5; }
+  .ready #disc:hover svg, .ready #disc:focus-visible svg { transform:scale(2.3) rotate(8deg); }
+  #disc svg { transition:transform .35s cubic-bezier(.3,.7,.3,1); transform-origin:78% 78%; display:block; }
+  .flipped #disc { opacity:0; pointer-events:none; }
+
+  button.hit { position:absolute; background:transparent; border:0; padding:0; cursor:pointer; border-radius:34px; }
+  #openBtn { left:40px; top:37px; width:540px; height:746px; }
+  #flipBtn { left:40px; top:37px; width:540px; height:746px; display:none; }
+  .ready #openBtn { display:none; }
+  .ready #flipBtn { display:block; }
+  button.hit:focus-visible, #disc:focus-visible { outline:3px solid var(--navy); outline-offset:4px; }
+
+  .hint { position:absolute; left:0; right:0; top:910px; text-align:center; font-family:'Libre Baskerville',Georgia,serif; font-style:italic;
+          font-size:15px; letter-spacing:.22em; color:var(--navy); transition:opacity .6s ease; }
+  #hint1 { animation:pulse 2.4s ease-in-out infinite; }
+  .opened #hint1 { opacity:0; animation:none; }
+  #hint2 { opacity:0; pointer-events:none; }
+  .ready #hint2 { opacity:1; pointer-events:auto; }
+  #hint2 a { color:var(--navy); }
+  #rewrap { margin-top:10px; font:inherit; font-size:12px; letter-spacing:.2em; color:var(--navy); background:none; border:0; border-bottom:1px solid currentColor; padding:4px 0; cursor:pointer; min-height:44px; }
+  @keyframes pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+
+  @media (prefers-reduced-motion: reduce) {
+    #bow, #hint1 { animation:none; }
+    .opened #bow { animation:untie .01s forwards; }
+    .half { transition-duration:.01s; transition-delay:0s; }
+    .opened #disc { animation:tuck .01s forwards; }
+    .flipper { transition-duration:.01s; }
+  }
+</style>
+</head>
+<body>
+<div id="fit">
+<div id="stage">
+
+  <div id="letter">
+    <div class="note-head">
+      <div class="tall" style="transform-origin:50% 0">A NOTE FROM US</div>
+      <div class="rule"></div>
+    </div>
+    <div class="note-body">
+      <p>Dear friends &amp; family,</p>
+      <p>A few of our paper invitations have gotten lost on their way to you, so we’re sending this digital invitation too.</p>
+      <p>We want to make sure everyone has the date, the place and the RSVP details, so you can plan to spend our special day with us.</p>
+      <p>Please RSVP by December 1st. If a paper invitation already made it to you, think of this as a happy reminder.</p>
+      <p style="margin-bottom:0">With love,</p>
+      <div class="note-sign">Simon &amp; Pili</div>
+    </div>
+    <div class="note-foot">January 16th, 2027 · Philadelphia</div>
+    <button id="closeLetter" class="hit" type="button" aria-label="Tuck the note back behind the invitation"></button>
+  </div>
+
+  <div class="card3d" aria-live="polite">
+    <div class="flipper">
+      <div class="face front">
+        <div class="small" style="top:40px; right:38px; text-align:right">
+          <div>January 16th, 2027</div>
+          <div>5:30 PM</div>
+        </div>
+        <div style="position:absolute; top:112px; left:12px; width:540px; display:flex; justify-content:center">
+          <div class="tall" style="transform-origin:50% 0; color:var(--gold)">
+            <div>SIMON</div><div>&amp;</div><div>PILI</div><div>ARE</div><div>GETTING</div>
+          </div>
+        </div>
+        <div class="married">Married</div>
+        <div class="small" style="left:38px; top:608px">
+          <div>Lilah</div>
+          <div>1601 North Front Street</div>
+          <div>Philadelphia, Pennsylvania</div>
+          <div style="margin-top:24px">Cocktail Attire</div>
+        </div>
+      </div>
+      <div class="face back">
+        <div class="tall" style="transform-origin:50% 50%; color:#AAC8CB">
+          <div>WE CAN’T</div><div>WAIT TO</div><div>CELEBRATE</div><div>WITH YOU!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <svg class="layer" aria-hidden="true" width="620" height="820" viewBox="0 0 620 820">
+    <defs>
+      <filter id="frayBand" x="-2%" y="-40%" width="104%" height="180%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.1 0.06" numOctaves="2" seed="4" result="n"></feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+      </filter>
+      <linearGradient id="bandShade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity="0.10"></stop>
+        <stop offset="0.45" stop-color="#fff" stop-opacity="0.18"></stop>
+        <stop offset="1" stop-color="#000" stop-opacity="0.14"></stop>
+      </linearGradient>
+    </defs>
+    <g id="bandL" class="half" filter="url(#frayBand)">
+      <rect x="20" y="430" width="302" height="34" fill="#EEE5C8"></rect>
+      <rect x="20" y="430" width="302" height="34" fill="url(#bandShade)"></rect>
+    </g>
+    <g id="bandR" class="half" filter="url(#frayBand)">
+      <rect x="320" y="430" width="280" height="34" fill="#EEE5C8"></rect>
+      <rect x="320" y="430" width="280" height="34" fill="url(#bandShade)"></rect>
+    </g>
+  </svg>
+
+  <a id="disc" href="https://www.zola.com/wedding/simonandpili" target="_blank" rel="noopener" tabindex="-1" aria-label="RSVP by December 1st at zola.com/wedding/simonandpili">
+    <svg width="420" height="420" viewBox="-10 -10 420 420" aria-hidden="true">
+      <defs>
+        <radialGradient id="seg" cx="200" cy="200" r="150" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FBD08C"></stop>
+          <stop offset="0.55" stop-color="#F7B458"></stop>
+          <stop offset="1" stop-color="#F09A38"></stop>
+        </radialGradient>
+        <filter id="pulp" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.05 0.35" numOctaves="2" seed="2" result="t"></feTurbulence>
+          <feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.8  0 0 0 0.9 -0.35" result="spots"></feColorMatrix>
+          <feComposite in="spots" in2="SourceGraphic" operator="in" result="clip"></feComposite>
+          <feMerge><feMergeNode in="SourceGraphic"></feMergeNode><feMergeNode in="clip"></feMergeNode></feMerge>
+        </filter>
+        <path id="arcTop" d="M 90 200 A 110 110 0 0 1 310 200"></path>
+        <path id="arcMid" d="M 122 200 A 78 78 0 0 1 278 200"></path>
+        <path id="arcBottom" d="M 70 200 A 130 130 0 0 0 330 200"></path>
+      </defs>
+      <circle cx="200" cy="200" r="200" fill="#FBF8F2"></circle>
+      <circle cx="200" cy="200" r="176" fill="#EC9530"></circle>
+      <circle cx="200" cy="200" r="171" fill="#F5AC4A"></circle>
+      <circle cx="200" cy="200" r="164" fill="#FCE7C6"></circle>
+      <circle cx="200" cy="200" r="153" fill="#FBE0B4"></circle>
+      <g filter="url(#pulp)">
+<path d="M202.5 191.4 L205.2 50.1 A150 150 0 0 1 276.6 71.1 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="207.5" y1="160.7" x2="225.3" y2="67.4"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="211.3" y1="161.6" x2="238.0" y2="70.5"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="214.9" y1="162.9" x2="250.4" y2="74.8"></line>
+<path d="M206.8 194.1 L285.5 76.7 A150 150 0 0 1 334.2 133.0 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="227.5" y1="171.0" x2="293.0" y2="102.1"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="230.2" y1="173.8" x2="302.0" y2="111.6"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="232.6" y1="176.9" x2="310.1" y2="121.9"></line>
+<path d="M208.9 198.7 L338.5 142.5 A150 150 0 0 1 349.1 216.1 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="238.9" y1="190.5" x2="331.1" y2="167.9"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="239.6" y1="194.3" x2="333.6" y2="180.8"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="240.0" y1="198.2" x2="334.9" y2="193.8"></line>
+<path d="M208.2 203.7 L347.6 226.5 A150 150 0 0 1 316.7 294.2 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="237.8" y1="213.0" x2="327.7" y2="243.9"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="236.4" y1="216.6" x2="322.8" y2="256.1"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="234.6" y1="220.1" x2="316.8" y2="267.7"></line>
+<path d="M204.9 207.6 L309.9 302.1 A150 150 0 0 1 247.3 342.4 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="224.8" y1="231.4" x2="283.7" y2="306.0"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="221.6" y1="233.7" x2="273.0" y2="313.6"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="218.3" y1="235.6" x2="261.6" y2="320.1"></line>
+<path d="M200.0 209.0 L237.2 345.3 A150 150 0 0 1 162.8 345.3 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="203.9" y1="239.8" x2="213.1" y2="334.4"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="200.0" y1="240.0" x2="200.0" y2="335.0"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="196.1" y1="239.8" x2="186.9" y2="334.4"></line>
+<path d="M195.1 207.6 L152.7 342.4 A150 150 0 0 1 90.1 302.1 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="181.7" y1="235.6" x2="138.4" y2="320.1"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="178.4" y1="233.7" x2="127.0" y2="313.6"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="175.2" y1="231.4" x2="116.3" y2="306.0"></line>
+<path d="M191.8 203.7 L83.3 294.2 A150 150 0 0 1 52.4 226.5 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="165.4" y1="220.1" x2="83.2" y2="267.7"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="163.6" y1="216.6" x2="77.2" y2="256.1"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="162.2" y1="213.0" x2="72.3" y2="243.9"></line>
+<path d="M191.1 198.7 L50.9 216.1 A150 150 0 0 1 61.5 142.5 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="160.0" y1="198.2" x2="65.1" y2="193.8"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="160.4" y1="194.3" x2="66.4" y2="180.8"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="161.1" y1="190.5" x2="68.9" y2="167.9"></line>
+<path d="M193.2 194.1 L65.8 133.0 A150 150 0 0 1 114.5 76.7 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="167.4" y1="176.9" x2="89.9" y2="121.9"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="169.8" y1="173.8" x2="98.0" y2="111.6"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="172.5" y1="171.0" x2="107.0" y2="102.1"></line>
+<path d="M197.5 191.4 L123.4 71.1 A150 150 0 0 1 194.8 50.1 Z" fill="url(#seg)"></path>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="185.1" y1="162.9" x2="149.6" y2="74.8"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="188.7" y1="161.6" x2="162.0" y2="70.5"></line>
+<line stroke="#FDE3B6" stroke-opacity="0.55" stroke-width="1.6" x1="192.5" y1="160.7" x2="174.7" y2="67.4"></line>
+      </g>
+      <circle cx="200" cy="200" r="9" fill="#FCE6C0"></circle>
+      <rect x="50" y="173" width="6" height="54" rx="2.5" fill="#2a3442" opacity="0.5"></rect>
+      <rect x="344" y="173" width="6" height="54" rx="2.5" fill="#2a3442" opacity="0.5"></rect>
+      <g fill="#2D3848">
+        <text font-family="'Pinyon Script', cursive" font-size="40"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">Kindly respond</textPath></text>
+        <text font-family="'Libre Baskerville', Baskerville, serif" font-size="14" letter-spacing="2"><textPath href="#arcMid" startOffset="50%" text-anchor="middle">BY DECEMBER 1ST</textPath></text>
+        <text font-family="'Libre Baskerville', Baskerville, serif" font-size="12.5" letter-spacing="1.2"><textPath href="#arcBottom" startOffset="50%" text-anchor="middle">VISIT ZOLA.COM/WEDDING/SIMONANDPILI</textPath></text>
+      </g>
+    </svg>
+  </a>
+
+  <svg class="layer" aria-hidden="true" width="620" height="820" viewBox="0 0 620 820">
+    <defs>
+      <filter id="frayBand2" x="-2%" y="-40%" width="104%" height="180%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.1 0.06" numOctaves="2" seed="4" result="n"></feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+      </filter>
+      <filter id="fray" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8 0.8" numOctaves="2" seed="7" result="n"></feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+      </filter>
+      <filter id="bowShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#141c28" flood-opacity="0.35"></feDropShadow>
+      </filter>
+      <radialGradient id="knotShade" cx="0.4" cy="0.35" r="0.7">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.35"></stop>
+        <stop offset="1" stop-color="#000" stop-opacity="0.22"></stop>
+      </radialGradient>
+    </defs>
+    <g id="segL" class="half" filter="url(#frayBand2)">
+      <rect x="201" y="430" width="121" height="34" fill="#EEE5C8"></rect>
+      <rect x="201" y="430" width="121" height="34" fill="url(#bandShade)"></rect>
+    </g>
+    <g id="segR" class="half" filter="url(#frayBand2)">
+      <rect x="320" y="430" width="121" height="34" fill="#EEE5C8"></rect>
+      <rect x="320" y="430" width="121" height="34" fill="url(#bandShade)"></rect>
+    </g>
+    <g id="bow">
+      <g filter="url(#bowShadow)">
+        <g filter="url(#fray)" fill="none" stroke-linecap="butt" stroke-linejoin="round">
+          <path d="M300 440 C 340 450 400 456 476 452" stroke="#CFC29C" stroke-width="32"></path>
+          <path d="M300 440 C 340 450 400 456 476 452" stroke="#EEE5C8" stroke-width="28"></path>
+          <path d="M285 440 C 262 482 224 522 188 578" stroke="#CFC29C" stroke-width="32"></path>
+          <path d="M285 440 C 262 482 224 522 188 578" stroke="#EEE5C8" stroke-width="28"></path>
+          <path d="M285 440 C 262 482 224 522 188 578" stroke="#ffffff" stroke-opacity="0.22" stroke-width="8"></path>
+          <path d="M286 432 C 240 362 198 262 226 234 C 256 206 292 318 302 426" stroke="#CFC29C" stroke-width="32"></path>
+          <path d="M286 432 C 240 362 198 262 226 234 C 256 206 292 318 302 426" stroke="#EEE5C8" stroke-width="28"></path>
+          <path d="M286 432 C 240 362 198 262 226 234" stroke="#ffffff" stroke-opacity="0.22" stroke-width="8"></path>
+          <path d="M294 428 C 328 340 378 252 410 240 C 446 228 424 292 312 436" stroke="#CFC29C" stroke-width="32"></path>
+          <path d="M294 428 C 328 340 378 252 410 240 C 446 228 424 292 312 436" stroke="#EEE5C8" stroke-width="28"></path>
+          <path d="M410 240 C 446 228 424 292 312 436" stroke="#000000" stroke-opacity="0.07" stroke-width="20"></path>
+        </g>
+        <g filter="url(#fray)">
+          <ellipse cx="293" cy="433" rx="24" ry="19" transform="rotate(-32 293 433)" fill="#EEE5C8"></ellipse>
+          <ellipse cx="293" cy="433" rx="24" ry="19" transform="rotate(-32 293 433)" fill="url(#knotShade)"></ellipse>
+          <path d="M278 426 C 288 432 296 440 304 446" stroke="#B9AB82" stroke-width="2" fill="none" opacity="0.7"></path>
+          <path d="M284 418 C 293 424 302 430 310 432" stroke="#B9AB82" stroke-width="1.5" fill="none" opacity="0.6"></path>
+        </g>
+      </g>
+    </g>
+  </svg>
+
+  <button id="openBtn" class="hit" type="button" aria-label="Untie the ribbon to open the invitation"></button>
+  <button id="flipBtn" class="hit" type="button" aria-label="Flip the invitation"></button>
+  <button id="letterBtn" class="hit" type="button" aria-label="Read our note"></button>
+</div>
+
+<div id="hint3">Tap the note to tuck it back</div>
+<div id="hint1" class="hint">Tap the note to read it · tap the ribbon to open</div>
+<div id="hint2" class="hint">
+  <div>Tap the card to flip · tap the orange to <a href="https://www.zola.com/wedding/simonandpili" target="_blank" rel="noopener">RSVP</a></div>
+  <button id="rewrap" type="button">Tie it back up</button>
+</div>
+</div>
+
+<script>
+  const fit = document.getElementById('fit');
+  const root = document.body;
+  const disc = document.getElementById('disc');
+  function resize() {
+    const s = Math.min(window.innerWidth / 640, window.innerHeight / 1000, 1.5);
+    fit.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let timer;
+  document.getElementById('openBtn').addEventListener('click', () => {
+    if (root.classList.contains('opened')) return;
+    root.classList.add('opened');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    timer = setTimeout(() => {
+      root.classList.add('ready');
+      disc.tabIndex = 0;
+      document.getElementById('flipBtn').focus({ preventScroll: true });
+    }, reduce ? 50 : 2500);
+  });
+  document.getElementById('flipBtn').addEventListener('click', () => {
+    root.classList.toggle('flipped');
+  });
+  document.getElementById('letterBtn').addEventListener('click', () => {
+    root.classList.remove('letterBack');
+    root.classList.add('letterOut');
+    document.getElementById('closeLetter').focus({ preventScroll: true });
+  });
+  document.getElementById('closeLetter').addEventListener('click', () => {
+    root.classList.remove('letterOut');
+    root.classList.add('letterBack');
+    document.getElementById('letterBtn').focus({ preventScroll: true });
+  });
+  document.getElementById('rewrap').addEventListener('click', () => {
+    clearTimeout(timer);
+    root.classList.remove('opened', 'ready', 'flipped');
+    disc.tabIndex = -1;
+    // restart animations
+    ['bow', 'disc'].forEach(id => { const el = document.getElementById(id); el.style.animation = 'none'; void el.getBoundingClientRect(); el.style.animation = ''; });
+    document.getElementById('openBtn').focus({ preventScroll: true });
+  });
+</script>
+</body>
+</html>
