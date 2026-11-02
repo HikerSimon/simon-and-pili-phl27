@@ -100,7 +100,7 @@
   #hint2 { opacity:0; pointer-events:none; }
   .ready #hint2 { opacity:1; pointer-events:auto; }
   #hint2 a { color:var(--navy); }
-  #rewrap { margin-top:10px; font:inherit; font-size:12px; letter-spacing:.2em; color:var(--navy); background:none; border:0; border-bottom:1px solid currentColor; padding:4px 0; cursor:pointer; min-height:44px; }
+  #rewrap { font:inherit; letter-spacing:inherit; color:var(--navy); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
   @keyframes pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
 
   @media (prefers-reduced-motion: reduce) {
@@ -323,8 +323,7 @@
 <div id="hint1" class="hint">Tap the ribbon to open<div style="margin-top:8px">Tap the note to read it</div></div>
 <div id="hint2" class="hint">
   <div>Tap the card to flip · tap the orange to <a href="https://www.zola.com/wedding/simonandpili" target="_blank" rel="noopener">RSVP</a></div>
-  <div style="margin-top:8px">Tap the note to read it</div>
-  <button id="rewrap" type="button">Tie it back up</button>
+  <div style="margin-top:8px">Tap the note to read it · <button id="rewrap" type="button">tie it back up</button></div>
 </div>
 </div>
 
